@@ -1,16 +1,23 @@
 package com.sp.letspace;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +35,10 @@ import android.widget.Toast;
 import com.sp.letspace.models.ApiResponse;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -42,8 +53,13 @@ public class MaintenanceFragment extends Fragment {
     private EditText etTitle, etIssueDescription;
     private Spinner spCategory;
     private Button btnUploadPhoto, btnSubmit, btnViewRequests;
-    private static final int PICK_IMAGE_REQUEST = 100;
+    private static final int CAMERA_REQUEST = 2;
+    private static final int PICK_IMAGE_REQUEST = 1001;
+    private static final int CAPTURE_IMAGE_REQUEST = 1002;
+    private static final int PERMISSION_REQUEST_CODE = 2001;
+
     private Uri selectedImageUri;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,10 +86,45 @@ public class MaintenanceFragment extends Fragment {
 
         // Handle photo upload
         btnUploadPhoto.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            intent.setType("image/*");
-            startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            if (!hasPermissions()) {
+                requestPermissionsSafe();
+                return;
+            }
+
+            String[] options = {"Take Photo", "Choose from Gallery"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle("Select Photo")
+                    .setItems(options, (dialog, which) -> {
+                        if (which == 0) {
+                            // Take photo from camera
+                            Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            if (cameraIntent.resolveActivity(requireContext().getPackageManager()) != null) {
+                                File photoFile = null;
+                                try {
+                                    photoFile = createImageFile();
+                                } catch (IOException ex) {
+                                    ex.printStackTrace();
+                                }
+
+                                if (photoFile != null) {
+                                    Uri photoURI = FileProvider.getUriForFile(requireContext(),
+                                            requireContext().getPackageName() + ".fileprovider",
+                                            photoFile);
+                                    selectedImageUri = photoURI;
+                                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                                    startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                                }
+                            }
+                        } else {
+                            // Choose from gallery
+                            Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            galleryIntent.setType("image/*");
+                            startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST);
+                        }
+                    })
+                    .show();
         });
+
 
         // Handle submit
         btnSubmit.setOnClickListener(v -> {
@@ -178,15 +229,35 @@ public class MaintenanceFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-            selectedImageUri = data.getData();
-
-            // Show preview (optional if you have an ImageView)
+        if (resultCode == Activity.RESULT_OK) {
             ImageView imagePreview = getView().findViewById(R.id.imagePreview);
-            imagePreview.setImageURI(selectedImageUri);
-            imagePreview.setVisibility(View.VISIBLE);
+
+            if (requestCode == PICK_IMAGE_REQUEST && data != null && data.getData() != null) {
+                selectedImageUri = data.getData();
+
+            } else if (requestCode == CAMERA_REQUEST) {
+                // selectedImageUri already set when photo was captured
+            }
+
+            if (selectedImageUri != null) {
+                imagePreview.setImageURI(selectedImageUri);
+                imagePreview.setVisibility(View.VISIBLE);
+            }
         }
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(requireContext(), "Permissions granted. You can now upload a photo.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(requireContext(), "Camera and storage permissions are required to upload photos.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
 
     private String getRealPathFromURI(Uri uri) {
         String result;
@@ -202,5 +273,25 @@ public class MaintenanceFragment extends Fragment {
         return result;
     }
 
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        return image;
+    }
 
+    private boolean hasPermissions() {
+        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestPermissionsSafe() {
+        requestPermissions(new String[]{
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        }, PERMISSION_REQUEST_CODE);
+    }
 }
