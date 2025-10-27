@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Letspace</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="maintenance_categories">
+        <item>Plumbing</item>
+        <item>Electrical</item>
+        <item>Appliances</item>
+        <item>Structural</item>
+        <item>Other</item>
+    </string-array>
+
+
+</resources>

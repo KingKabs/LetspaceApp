@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="blue_500">#2196F3</color> <!-- Material Blue 500 -->
+    <color name="blue_700">#1976D2</color> <!-- Material Blue 700 -->
+    <color name="deep_blue_500">#1565C0</color> <!-- Deep Blue -->
+    <color name="deep_blue_700">#0D47A1</color> <!-- Even deeper -->
+    <color name="deep_blue_accent">#82B1FF</color> <!-- Lighter accent for highlights -->
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="red">#D32F2F</color>
+    <color name="green">#388E3C</color>
+    <color name="blue">#1976D2</color>
+
+
+    <color name="cardBlue">#2196F3</color>
+    <color name="cardGreen">#4CAF50</color>
+    <color name="cardRed">#F44336</color>
+    <color name="amber_200">#FFE082</color>
+    <color name="red_200">#EF9A9A</color>
+    <color name="green_200">#A5D6A7</color>
+    <color name="blue_200">#90CAF9</color>
+    <color name="indigo_200">#9FA8DA</color>
+
+    <color name="blue_start">#42A5F5</color>
+    <color name="blue_center">#2196F3</color>
+    <color name="blue_end">#1976D2</color>
+
+    <!-- Dashboard Theme Colors -->
+    <color name="dashboard_bg">#F8F9FA</color> <!-- Light gray background -->
+
+    <!-- Card Colors -->
+    <color name="card_lease">#EDE7F6</color>   <!-- Light purple -->
+    <color name="card_deposit">#E0F2F1</color> <!-- Teal tint -->
+    <color name="card_billing">#E3F2FD</color> <!-- Light blue -->
+    <color name="card_maintenance">#FFEBEE</color> <!-- Soft red -->
+    <color name="card_notice">#FFF8E1</color>  <!-- Warm amber -->
+
+    <!-- Text Colors -->
+    <color name="dashboard_title">#212121</color> <!-- Almost black -->
+    <color name="dashboard_value">#424242</color> <!-- Dark gray -->
+
+</resources>

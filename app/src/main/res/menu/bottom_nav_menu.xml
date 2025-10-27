@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_stats"
+        android:title="Stats"
+        android:icon="@drawable/baseline_bar_chart_24"/>
+
+    <item
+        android:id="@+id/nav_maintenance"
+        android:title="Maintenance"
+        android:icon="@drawable/baseline_note_add_24"/>
+
+    <item
+        android:id="@+id/nav_maintenance_requests"
+        android:title="My Requests"
+        android:icon="@drawable/outline_article_24"/>
+
+    <item
+        android:id="@+id/nav_transactions"
+        android:title="Transactions"
+        android:icon="@drawable/baseline_receipt_long_24"/>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:title="Profile"
+        android:icon="@drawable/outline_person_24"/>
+
+</menu>

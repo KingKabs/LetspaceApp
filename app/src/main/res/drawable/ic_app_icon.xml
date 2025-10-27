@@ -1,0 +1,36 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Background Circle -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M54,0
+                          A54,54 0 1,0 54,108
+                          A54,54 0 1,0 54,0Z"/>
+
+    <!-- House body -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M28,60 L28,46 L54,26 L80,46 L80,60 Z"/>
+
+    <!-- Door (blue rectangle) -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M50,60 H58 V76 H50 Z"/>
+
+    <!-- Tenant head (circle inside house) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M54,40
+                          m-6,0
+                          a6,6 0 1,0 12,0
+                          a6,6 0 1,0 -12,0"/>
+
+    <!-- Tenant body (rectangle under head) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M48,46 H60 V54 H48 Z"/>
+</vector>

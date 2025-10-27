@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dashboard_bg"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:dividerPadding="12dp">
+
+        <!-- Dashboard Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:text="Tenant Dashboard"
+            android:textColor="@color/dashboard_title"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <!-- Lease Details -->
+        <com.google.android.material.card.MaterialCardView
+            style="@style/DashboardCard"
+            app:cardBackgroundColor="@color/card_lease">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/DashboardTitle"
+                    android:text="📄 Lease Details" />
+
+                <TextView
+                    android:id="@+id/tvRegistrationDate"
+                    style="@style/DashboardValue"
+                    android:text="From: Jan 2025" />
+
+                <TextView
+                    android:id="@+id/tvUnitNumber"
+                    style="@style/DashboardValue"
+                    android:text="Unit: Apartment A-1" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Deposit -->
+        <com.google.android.material.card.MaterialCardView
+            style="@style/DashboardCard"
+            app:cardBackgroundColor="@color/card_deposit">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/DashboardTitle"
+                    android:text="💵 My Deposit" />
+
+                <TextView
+                    android:id="@+id/tvRentDeposit"
+                    style="@style/DashboardValue"
+                    android:text="KES 0.0" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Billing Summary -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardBilling"
+            style="@style/DashboardCard"
+            app:cardBackgroundColor="@color/card_billing">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/DashboardTitle"
+                    android:text="🧾 Billing Summary" />
+
+                <TextView
+                    android:id="@+id/tvBalance"
+                    style="@style/DashboardValue"
+                    android:text="Outstanding Balance: $0" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Maintenance Requests -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardMaintenance"
+            style="@style/DashboardCard"
+            app:cardBackgroundColor="@color/card_maintenance">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/DashboardTitle"
+                    android:text="🛠️ Maintenance Requests" />
+
+                <TextView
+                    android:id="@+id/tvMaintenanceSummary"
+                    style="@style/DashboardValue"
+                    android:text="0 Pending, 0 In Progress" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Notices -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardNotices"
+            style="@style/DashboardCard"
+            app:cardBackgroundColor="@color/card_notice">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    style="@style/DashboardTitle"
+                    android:text="📢 Notices" />
+
+                <TextView
+                    android:id="@+id/tvNotices"
+                    style="@style/DashboardValue"
+                    android:text="None" />
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>
