@@ -43,7 +43,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import okhttp3.MediaType;
@@ -66,6 +68,7 @@ public class MaintenanceFragment extends Fragment {
 
     private Uri cameraImageUri;
     private Uri selectedImageUri;
+    private final List<Uri> selectedImageUris = new ArrayList<>();
 
 
     @Override
@@ -130,13 +133,21 @@ public class MaintenanceFragment extends Fragment {
             RequestBody descriptionPart = RequestBody.create(MediaType.parse("text/plain"), description);
 
             // Handle optional photo
-            MultipartBody.Part photoPart = null;
-            if (selectedImageUri != null) {
-                String imagePath = getRealPathFromURI(selectedImageUri);
-                File file = new File(imagePath); // path you get from file chooser or camera
+            List<MultipartBody.Part> photoParts = new ArrayList<>();
+
+            for (Uri uri : selectedImageUris) {
+                String imagePath = getRealPathFromURI(uri);
+                File file = new File(imagePath);
+
+                if (file.length() > 2 * 1024 * 1024) { // compress if > 2MB
+                    file = compressImage(file);
+                }
+
                 RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-                photoPart = MultipartBody.Part.createFormData("photo", file.getName(), requestFile);
+                MultipartBody.Part part = MultipartBody.Part.createFormData("photos[]", file.getName(), requestFile);
+                photoParts.add(part);
             }
+
 
             if (title.isEmpty()) {
                 progressDialog.dismiss();
@@ -158,7 +169,7 @@ public class MaintenanceFragment extends Fragment {
 
 
             ApiService apiService = ApiClient.getClient(getContext()).create(ApiService.class);
-            Call<ApiResponse> call = apiService.submitMaintenance(titlePart, categoryPart, descriptionPart, photoPart);
+            Call<ApiResponse> call = apiService.submitMaintenance(titlePart, categoryPart, descriptionPart, photoParts);
 
             call.enqueue(new Callback<ApiResponse>() {
                 @Override
@@ -204,41 +215,35 @@ public class MaintenanceFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
-            selectedImageUri = data.getData();
+        if (resultCode == Activity.RESULT_OK) {
 
-            try {
-                // Get real path from URI
-                String imagePath = getRealPathFromURI(selectedImageUri);
-                if (imagePath == null) {
-                    Toast.makeText(requireContext(), "Unable to load image.", Toast.LENGTH_SHORT).show();
-                    return;
+            // Clear old selections
+            selectedImageUris.clear();
+
+            if (requestCode == PICK_IMAGE_REQUEST) {
+                if (data != null) {
+                    if (data.getClipData() != null) {
+                        // Multiple images selected
+                        int count = data.getClipData().getItemCount();
+                        for (int i = 0; i < count; i++) {
+                            selectedImageUris.add(data.getClipData().getItemAt(i).getUri());
+                        }
+                    } else if (data.getData() != null) {
+                        // Single image selected
+                        selectedImageUris.add(data.getData());
+                    }
                 }
 
-                File originalFile = new File(imagePath);
+            } else if (requestCode == CAPTURE_IMAGE_REQUEST && cameraImageUri != null) {
+                // Photo captured from camera
+                selectedImageUris.add(cameraImageUri);
+            }
 
-                // ✅ Check file size before upload
-                double fileSizeInMB = originalFile.length() / (1024.0 * 1024.0);
-
-                if (fileSizeInMB > 2.0) {
-                    // Compress large image using helper
-                    File compressedFile = compressImage(originalFile);
-                    double newFileSize = compressedFile.length() / (1024.0 * 1024.0);
-
-                    selectedImageUri = Uri.fromFile(compressedFile);
-                    Toast.makeText(requireContext(),
-                            String.format("Image compressed from %.2fMB to %.2fMB", fileSizeInMB, newFileSize),
-                            Toast.LENGTH_LONG).show();
-                }
-
-                // ✅ Show preview
-                ImageView imagePreview = getView().findViewById(R.id.imagePreview);
-                imagePreview.setImageURI(selectedImageUri);
-                imagePreview.setVisibility(View.VISIBLE);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(requireContext(), "Error processing image.", Toast.LENGTH_SHORT).show();
+            // Optional: show first image as preview
+            if (!selectedImageUris.isEmpty()) {
+                ImageView preview = getView().findViewById(R.id.imagePreview);
+                preview.setImageURI(selectedImageUris.get(0));
+                preview.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -307,7 +312,6 @@ public class MaintenanceFragment extends Fragment {
         }
     }
 
-
     private File createImageFile() throws IOException {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
@@ -315,7 +319,6 @@ public class MaintenanceFragment extends Fragment {
         File image = File.createTempFile(imageFileName, ".jpg", storageDir);
         return image;
     }
-
 
     private void showImageSourceDialog() {
         String[] options = {"Capture from Camera", "Select from Gallery"};
@@ -331,7 +334,6 @@ public class MaintenanceFragment extends Fragment {
                 })
                 .show();
     }
-
 
     private void openCamera() {
         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -355,9 +357,10 @@ public class MaintenanceFragment extends Fragment {
     }
 
     private void openGallery() {
-        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        startActivityForResult(intent, PICK_IMAGE_REQUEST);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true); // allow multiple
+        startActivityForResult(Intent.createChooser(intent, "Select Images"), PICK_IMAGE_REQUEST);
     }
 
     private File compressImage(File originalFile) {
@@ -378,7 +381,6 @@ public class MaintenanceFragment extends Fragment {
             return originalFile; // fallback
         }
     }
-
 
     private boolean hasPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {

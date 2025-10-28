@@ -3,6 +3,8 @@ package com.sp.letspace;
 import com.sp.letspace.models.ApiResponse;
 import com.sp.letspace.models.LoginResponse;
 
+import java.util.List;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -30,7 +32,7 @@ public interface ApiService {
             @Part("title") RequestBody title,
             @Part("category") RequestBody category,
             @Part("description") RequestBody description,
-            @Part MultipartBody.Part photo // this will hold the uploaded image
+            @Part List<MultipartBody.Part> photos
     );
 
 }
