@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="photo_preview_width">120dp</dimen>
+    <dimen name="photo_preview_height">120dp</dimen>
+    <dimen name="photo_thumbnail_size">100dp</dimen>
+</resources>

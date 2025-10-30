@@ -1,6 +1,8 @@
 package com.sp.letspace.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MaintenanceRequest implements Serializable {
 
@@ -13,6 +15,7 @@ public class MaintenanceRequest implements Serializable {
     public String status;
     public String summary;
     public Technician technician;
+    public List<String> photos;
 
     public MaintenanceRequest(String category, String description, String status) {
         this.category = category;
@@ -38,6 +41,17 @@ public class MaintenanceRequest implements Serializable {
 
     public String getSummary() {
         return summary;
+    }
+
+    public List<String> getPhotos() {
+        if (photos == null) {
+            return new ArrayList<>();
+        }
+        return photos;
+    }
+
+    public void setPhotos(List<String> photos) {
+        this.photos = photos;
     }
 }
 
