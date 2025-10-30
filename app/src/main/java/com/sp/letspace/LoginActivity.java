@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
@@ -13,20 +12,22 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.gson.Gson;
 import com.sp.letspace.models.LoginResponse;
+
+import java.util.ArrayList;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MainActivity extends AppCompatActivity {
-    Activity activity = MainActivity.this;
+public class LoginActivity extends AppCompatActivity {
+    Activity activity = LoginActivity.this;
     private EditText etUsername, etPassword;
     ProgressDialog progressDialog;
 
@@ -45,24 +46,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (isLoggedIn) {
             // Skip login, go straight to dashboard
-            startActivity(new Intent(MainActivity.this, DashboardActivity.class));
+            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
             finish();
         }
 
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
-        //layout animation (background)
-        /*ConstraintLayout layout = findViewById(R.id.main);
-        AnimationDrawable animationDrawable = (AnimationDrawable) layout.getBackground();
-        animationDrawable.setEnterFadeDuration(3000);
-        animationDrawable.setExitFadeDuration(3000);
-        animationDrawable.start();*/
-
 
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
@@ -83,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
             if (email.isEmpty() || password.isEmpty()) {
                 progressDialog.dismiss();
-                Toast.makeText(MainActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Please enter email and password", Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -100,7 +93,20 @@ public class MainActivity extends AppCompatActivity {
                         // ✅ Log the full response for debugging
                         Log.d("LOGIN_SUCCESS", "Token: " + response.body().getToken() +
                                 ", User: " + response.body().getUser().getName() +
-                                " (" + response.body().getUser().getEmail() + ")");
+                                " (" + response.body().getUser().getEmail() + ")" +
+                                " (" + response.body().getUser().getRole() + ")");
+
+                        String role = response.body().getUser().getRole(); // "tenant" or "landlord"/"property_agent"
+                        //Log.d("USER_ROLE", role);
+
+                        LoginResponse loginResponse = response.body();
+                        if (loginResponse != null) {
+                            Gson gson = new Gson();
+                            String json = gson.toJson(loginResponse);
+                            Log.d("API_RESPONSE_JSON", json);
+                        } else {
+                            Log.d("API_RESPONSE_JSON", "Response body is null");
+                        }
 
                         // Save token and logged in status
                         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
@@ -109,10 +115,21 @@ public class MainActivity extends AppCompatActivity {
                         editor.putBoolean("is_logged_in", true); // ✅ mark logged in
                         editor.apply();
 
-                        // Go to Dashboard
-                        Intent intent = new Intent(MainActivity.this, DashboardActivity.class);
-                        startActivity(intent);
-                        finish();
+
+                        if ("tenant".equalsIgnoreCase(role)) {
+                            // Proceed to DashboardActivity for tenants
+                            Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else if ("landlord".equalsIgnoreCase(role) || "property_agent".equalsIgnoreCase(role)) {
+                            // Proceed to a LandlordDashboardActivity
+                            Intent intent = new Intent(LoginActivity.this, LandlordDashboardActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "Unknown role. Cannot proceed.", Toast.LENGTH_SHORT).show();
+                        }
+
                     } else {
                         try {
                             String errorBody = response.errorBody().string();
@@ -120,14 +137,14 @@ public class MainActivity extends AppCompatActivity {
                         } catch (Exception e) {
                             Log.e("LOGIN_ERROR", "Failed to parse error body", e);
                         }
-                        Toast.makeText(MainActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Invalid credentials", Toast.LENGTH_SHORT).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<LoginResponse> call, Throwable t) {
                     progressDialog.dismiss();
-                    Toast.makeText(MainActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         });

@@ -5,16 +5,10 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.sp.letspace.models.ApiResponse;
-
-import retrofit2.Call;
 
 
 public class ProfileFragment extends Fragment {
@@ -37,7 +31,7 @@ public class ProfileFragment extends Fragment {
 
         // 🔹 Observe the shared ViewModel
         SessionViewModel vm = new ViewModelProvider(requireActivity()).get(SessionViewModel.class);
-        vm.getProfileData().observe(getViewLifecycleOwner(), profile -> {
+        vm.getTenantProfileData().observe(getViewLifecycleOwner(), profile -> {
             if (profile != null) {
                 tvTenantName.setText(profile.tenant.fname + " " + profile.tenant.lname);
                 tvTenantEmail.setText(profile.user.email);

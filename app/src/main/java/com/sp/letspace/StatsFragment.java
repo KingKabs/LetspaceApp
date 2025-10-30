@@ -8,18 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.google.android.material.card.MaterialCardView;
-import com.sp.letspace.models.ApiResponse;
 
 import java.text.NumberFormat;
 import java.util.Currency;
@@ -75,7 +68,7 @@ public class StatsFragment extends Fragment {
 
         // 🔹 Observe shared SessionViewModel
         SessionViewModel vm = new ViewModelProvider(requireActivity()).get(SessionViewModel.class);
-        vm.getProfileData().observe(getViewLifecycleOwner(), profile -> {
+        vm.getTenantProfileData().observe(getViewLifecycleOwner(), profile -> {
             if (profile != null) {
                 // Create a currency formatter for KES
                 NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance(new Locale("en", "KE"));

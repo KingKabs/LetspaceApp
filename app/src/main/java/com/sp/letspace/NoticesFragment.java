@@ -49,7 +49,7 @@ public class NoticesFragment extends Fragment {
         sessionViewModel = new ViewModelProvider(requireActivity()).get(SessionViewModel.class);
 
         // 🔹 Observe profile data
-        sessionViewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
+        sessionViewModel.getTenantProfileData().observe(getViewLifecycleOwner(), profile -> {
             if (profile != null && profile.notices != null) {
                 noticeList.clear();
                 noticeList.addAll(profile.notices);
@@ -63,7 +63,7 @@ public class NoticesFragment extends Fragment {
     private void loadNotices() {
         // Assuming you have a Retrofit instance ready
         ApiService apiService = ApiClient.getClient(getContext()).create(ApiService.class);
-        Call<ApiResponse> call = apiService.getTenantProfile();
+        Call<ApiResponse> call = apiService.getUserProfile();
 
         call.enqueue(new Callback<ApiResponse>() {
             @Override

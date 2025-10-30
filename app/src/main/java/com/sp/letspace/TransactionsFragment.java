@@ -37,7 +37,7 @@ public class TransactionsFragment extends Fragment {
 
         sessionViewModel = new ViewModelProvider(requireActivity()).get(SessionViewModel.class);
 
-        sessionViewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
+        sessionViewModel.getTenantProfileData().observe(getViewLifecycleOwner(), profile -> {
             if (profile != null && profile.transactions != null) {
                 List<Transaction> transactions = profile.transactions;
                 adapter = new TransactionAdapter(getContext(), transactions);

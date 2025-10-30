@@ -105,14 +105,14 @@ public class DashboardActivity extends AppCompatActivity {
             editor.apply();
 
             // Redirect to login screen
-            startActivity(new Intent(DashboardActivity.this, MainActivity.class));
+            startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
             finish();
 
             return true;
         } else if (id == R.id.action_notices) {
             loadFragment(new NoticesFragment(), "Notices");
             return true;
-        }else if (id == R.id.action_about) {
+        } else if (id == R.id.action_about) {
             loadFragment(new AboutFragment(), "About us");
             return true;
         }
@@ -122,7 +122,7 @@ public class DashboardActivity extends AppCompatActivity {
 
     private void loadTenantProfile() {
         ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
-        Call<ApiResponse> call = apiService.getTenantProfile();
+        Call<ApiResponse> call = apiService.getUserProfile();
 
         call.enqueue(new retrofit2.Callback<ApiResponse>() {
             @Override
@@ -133,7 +133,7 @@ public class DashboardActivity extends AppCompatActivity {
                     // ✅ Push to ViewModel
                     SessionViewModel vm = new ViewModelProvider(DashboardActivity.this)
                             .get(SessionViewModel.class);
-                    vm.setProfileData(tenantProfile);
+                    vm.setTenantProfileData(tenantProfile);
 
                     Log.d("Profile", "Loaded tenant profile: " + tenantProfile.user.email);
                 } else {
@@ -149,7 +149,4 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
 
-    public ApiResponse getTenantProfile() {
-        return tenantProfile;
-    }
 }

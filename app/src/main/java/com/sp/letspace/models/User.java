@@ -4,6 +4,7 @@ public class User {
     public int id;
     public String name;
     public String email;
+    public String role;
 
     public int getId() {
         return id;
@@ -15,5 +16,9 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getRole() {
+        return role;
     }
 }

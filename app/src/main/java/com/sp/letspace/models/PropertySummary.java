@@ -1,7 +1,7 @@
 package com.sp.letspace.models;
 
-public class Property {
-    public int id;
+public class PropertySummary {
+    public int property_id;
     public String name;
     public int unit_count;
     public double total_rent;
@@ -11,7 +11,7 @@ public class Property {
     public double occupancy_rate;
 
     public int getPropertyId() {
-        return id;
+        return property_id;
     }
 
     public String getName() {
@@ -42,3 +42,4 @@ public class Property {
         return occupancy_rate;
     }
 }
+

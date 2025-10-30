@@ -14,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sp.letspace.adapters.MaintenanceRequestAdapter;
-import com.sp.letspace.models.ApiResponse;
 import com.sp.letspace.models.MaintenanceRequest;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class MaintenanceListFragment extends Fragment {
 
         sessionViewModel = new ViewModelProvider(requireActivity()).get(SessionViewModel.class);
 
-        sessionViewModel.getProfileData().observe(getViewLifecycleOwner(), profile -> {
+        sessionViewModel.getTenantProfileData().observe(getViewLifecycleOwner(), profile -> {
             if (profile != null && profile.maintenance_requests != null) {
                 adapter = new MaintenanceRequestAdapter(profile.maintenance_requests);
                 rvRequests.setAdapter(adapter);

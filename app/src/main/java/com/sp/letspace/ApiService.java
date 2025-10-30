@@ -1,6 +1,7 @@
 package com.sp.letspace;
 
 import com.sp.letspace.models.ApiResponse;
+import com.sp.letspace.models.LandlordApiResponse;
 import com.sp.letspace.models.LoginResponse;
 
 import java.util.List;
@@ -16,8 +17,11 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 
 public interface ApiService {
-    @GET("api/tenant/profile")
-    Call<ApiResponse> getTenantProfile();
+    @GET("api/user/profile")
+    Call<ApiResponse> getUserProfile();
+
+    @GET("api/user/profile")
+    Call<LandlordApiResponse> getLandlordProfile();
 
     @FormUrlEncoded
     @POST("api/login")
