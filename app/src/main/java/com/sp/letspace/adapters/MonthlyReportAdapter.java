@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.sp.letspace.R;
 import com.sp.letspace.models.MonthlyReport;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MonthlyReportAdapter extends RecyclerView.Adapter<MonthlyReportAdapter.ReportViewHolder> {
@@ -18,7 +19,7 @@ public class MonthlyReportAdapter extends RecyclerView.Adapter<MonthlyReportAdap
     private List<MonthlyReport> reports;
 
     public MonthlyReportAdapter(List<MonthlyReport> reports) {
-        this.reports = reports;
+        this.reports = reports != null ? reports : new ArrayList<>();
     }
 
     @NonNull
