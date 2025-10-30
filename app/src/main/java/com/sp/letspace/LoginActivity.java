@@ -43,10 +43,21 @@ public class LoginActivity extends AppCompatActivity {
 
         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
         boolean isLoggedIn = prefs.getBoolean("is_logged_in", false);
+        String role = prefs.getString("user_role", "");
 
-        if (isLoggedIn) {
-            // Skip login, go straight to dashboard
-            startActivity(new Intent(LoginActivity.this, DashboardActivity.class));
+        if (isLoggedIn && role != null && !role.isEmpty()) {
+
+            Intent intent;
+            if (role.equalsIgnoreCase("tenant")) {
+                intent = new Intent(LoginActivity.this, DashboardActivity.class); // tenant dashboard
+            } else if (role.equalsIgnoreCase("landlord") || role.equalsIgnoreCase("property_agent")) {
+                intent = new Intent(LoginActivity.this, LandlordDashboardActivity.class); // landlord/property agent dashboard
+            } else {
+                // fallback in case role is missing
+                intent = new Intent(LoginActivity.this, LoginActivity.class);
+            }
+
+            startActivity(intent);
             finish();
         }
 
@@ -112,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                         SharedPreferences prefs = getSharedPreferences("MyAppPrefs", MODE_PRIVATE);
                         SharedPreferences.Editor editor = prefs.edit();
                         editor.putString("auth_token", token);
+                        editor.putString("user_role", role);
                         editor.putBoolean("is_logged_in", true); // ✅ mark logged in
                         editor.apply();
 

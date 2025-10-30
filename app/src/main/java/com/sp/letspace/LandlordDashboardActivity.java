@@ -1,7 +1,11 @@
 package com.sp.letspace;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
@@ -10,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.sp.letspace.models.ApiResponse;
@@ -31,6 +36,10 @@ public class LandlordDashboardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landlord_dashboard);
+
+        Toolbar toolbar = findViewById(R.id.toolbarLandlord);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Dashboard");
 
         tvTotalProperties = findViewById(R.id.tvTotalProperties);
         tvTotalTenants = findViewById(R.id.tvTotalTenants);
@@ -67,5 +76,9 @@ public class LandlordDashboardActivity extends AppCompatActivity {
         tvTotalTenants.setText(String.valueOf(stats.total_tenants));
         tvCollectableRent.setText(String.format("KSh %,.0f", stats.collectable_rent));
         tvOccupancyRate.setText(String.format("%.0f%%", stats.occupancy_rate));
+
+        Log.d("Total Properties", "" + stats.total_properties);
     }
+
+
 }

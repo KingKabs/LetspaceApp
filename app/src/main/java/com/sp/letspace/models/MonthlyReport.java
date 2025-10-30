@@ -1,5 +1,7 @@
 package com.sp.letspace.models;
 
+import android.os.Parcelable;
+
 public class MonthlyReport {
     public int property_id;
     public String name;
