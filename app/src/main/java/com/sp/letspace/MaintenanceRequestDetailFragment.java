@@ -1,7 +1,9 @@
 package com.sp.letspace;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.cardview.widget.CardView;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sp.letspace.models.MaintenanceRequest;
 
@@ -50,10 +53,22 @@ public class MaintenanceRequestDetailFragment extends Fragment {
 
                 if (request.technician != null) {
                     technicianSection.setVisibility(View.VISIBLE);
-                    technicianName.setText("👷 Name: " + request.technician.name);
-                    technicianPhone.setText("📞 Phone: " + request.technician.phone);
-                    technicianEmail.setText("📧 Email: " + request.technician.email);
-                    technicianSpecialization.setText("⚙️ Specialization: " + request.technician.specialization);
+                    technicianName.setText(request.technician.name);
+                    technicianPhone.setText(request.technician.phone);
+                    technicianEmail.setText(request.technician.email);
+                    technicianSpecialization.setText(request.technician.specialization);
+
+                    technicianSection.setOnClickListener(v -> {
+                        String phoneNumber = technicianPhone.getText().toString().trim();
+                        if (!phoneNumber.isEmpty()) {
+                            Intent intent = new Intent(Intent.ACTION_DIAL);
+                            intent.setData(Uri.parse("tel:" + phoneNumber));
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(requireContext(), "Phone number not available", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 } else {
                     technicianSection.setVisibility(View.VISIBLE);
 

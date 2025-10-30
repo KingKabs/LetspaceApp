@@ -1,6 +1,8 @@
 package com.sp.letspace.models;
 
-public class Technician {
+import java.io.Serializable;
+
+public class Technician implements Serializable {
     public int id;
     public String name;
     public String phone;
