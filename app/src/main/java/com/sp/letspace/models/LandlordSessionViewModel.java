@@ -8,11 +8,20 @@ import java.util.List;
 
 public class LandlordSessionViewModel extends ViewModel {
 
+    // General stats for landlord dashboard
     private final MutableLiveData<LandlordApiResponse.GeneralStats> generalStats = new MutableLiveData<>();
+
+    // List of landlord properties
     private final MutableLiveData<List<Property>> properties = new MutableLiveData<>();
+
+    // Monthly reports
     private final MutableLiveData<List<LandlordApiResponse.MonthlyReport>> monthlyReports = new MutableLiveData<>();
 
-    // GENERAL STATS
+    // Maintenance requests for all tenants under landlord's properties
+    private final MutableLiveData<List<MaintenanceRequest>> maintenanceRequests = new MutableLiveData<>();
+
+
+    // --- GENERAL STATS ---
     public LiveData<LandlordApiResponse.GeneralStats> getGeneralStats() {
         return generalStats;
     }
@@ -21,7 +30,8 @@ public class LandlordSessionViewModel extends ViewModel {
         generalStats.setValue(stats);
     }
 
-    // PROPERTIES (use enhanced Property model)
+
+    // --- PROPERTIES ---
     public LiveData<List<Property>> getProperties() {
         return properties;
     }
@@ -30,7 +40,8 @@ public class LandlordSessionViewModel extends ViewModel {
         properties.setValue(list);
     }
 
-    // MONTHLY REPORTS
+
+    // --- MONTHLY REPORTS ---
     public LiveData<List<LandlordApiResponse.MonthlyReport>> getMonthlyReports() {
         return monthlyReports;
     }
@@ -38,7 +49,18 @@ public class LandlordSessionViewModel extends ViewModel {
     public void setMonthlyReports(List<LandlordApiResponse.MonthlyReport> list) {
         monthlyReports.setValue(list);
     }
+
+
+    // --- MAINTENANCE REQUESTS ---
+    public LiveData<List<MaintenanceRequest>> getMaintenanceRequests() {
+        return maintenanceRequests;
+    }
+
+    public void setMaintenanceRequests(List<MaintenanceRequest> list) {
+        maintenanceRequests.setValue(list);
+    }
 }
+
 
 
 

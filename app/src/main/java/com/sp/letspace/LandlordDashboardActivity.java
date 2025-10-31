@@ -56,10 +56,10 @@ public class LandlordDashboardActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_properties) {
                 selectedFragment = new PropertiesFragment();
                 title = "🏠 Properties";
-            } /*else if (itemId == R.id.nav_requests) {
-                selectedFragment = new TenantRequestsFragment();
+            } else if (itemId == R.id.nav_requests) {
+                selectedFragment = new MaintenanceListFragment();
                 title = "🛠️ Requests";
-            } else if (itemId == R.id.nav_payments) {
+            } /*else if (itemId == R.id.nav_payments) {
                 selectedFragment = new TenantPaymentsFragment();
                 title = "💰 Payments";
             } else if (itemId == R.id.nav_profile) {
@@ -164,6 +164,14 @@ public class LandlordDashboardActivity extends AppCompatActivity {
 
                     // Monthly Reports (optional, can still keep for separate fragment)
                     vm.setMonthlyReports(data.monthly_reports);
+
+                    // ✅ Maintenance Requests
+                    if (data.maintenance_requests != null) {
+                        vm.setMaintenanceRequests(data.maintenance_requests);
+                        Log.d("LandlordProfile", "Loaded maintenance requests: " + data.maintenance_requests.size());
+                    } else {
+                        Log.d("LandlordProfile", "No maintenance requests found");
+                    }
 
                 } else {
                     Log.e("LandlordProfile", "Failed: " + response.message());

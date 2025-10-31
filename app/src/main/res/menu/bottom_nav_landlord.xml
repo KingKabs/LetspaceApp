@@ -7,10 +7,10 @@
         android:id="@+id/nav_properties"
         android:icon="@drawable/baseline_house_24"
         android:title="Properties"/>
-    <!--<item
+    <item
         android:id="@+id/nav_requests"
-        android:icon="@drawable/outline_hand_gesture_24"
-        android:title="Requests"/>-->
+        android:icon="@drawable/outline_article_24"
+        android:title="Requests"/>
     <!--<item
         android:id="@+id/nav_payments"
         android:icon="@drawable/outline_payments_24"

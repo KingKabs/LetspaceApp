@@ -8,6 +8,7 @@ public class LandlordApiResponse {
     public User user;
     public List<Property> properties;        // Use the enriched Property model
     public List<MonthlyReport> monthly_reports;
+    public List<MaintenanceRequest> maintenance_requests;
     public GeneralStats general_stats;
 
     public static class User {
