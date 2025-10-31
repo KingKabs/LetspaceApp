@@ -50,18 +50,6 @@ public class Property {
         return occupancy_rate;
     }
 
-    // NEW CLASSES for related data
-    public static class Tenant {
-        public int id;
-        public int property_id;
-        public int housing_unit_id;
-        public String fname;
-        public String lname;
-
-        public String getFullName() {
-            return fname + " " + lname;
-        }
-    }
 
     public static class Expense {
         public int id;

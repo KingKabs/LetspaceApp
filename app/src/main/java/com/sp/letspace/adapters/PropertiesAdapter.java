@@ -16,9 +16,16 @@ import java.util.List;
 public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.PropertyViewHolder> {
 
     private final List<Property> propertyList;
+    private final OnPropertyClickListener listener;
 
-    public PropertiesAdapter(List<Property> propertyList) {
+    // Interface for click callback
+    public interface OnPropertyClickListener {
+        void onPropertyClick(Property property);
+    }
+
+    public PropertiesAdapter(List<Property> propertyList, OnPropertyClickListener listener) {
         this.propertyList = propertyList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -44,6 +51,13 @@ public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.Pr
         // Format occupancy / vacancy percentages
         holder.tvOccupancy.setText(String.format("Occupancy: %.0f%%", property.getOccupancyRate()));
         holder.tvVacancy.setText(String.format("Vacancy: %.0f%%", property.getVacancyRate()));
+
+        // Click listener
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onPropertyClick(property);
+            }
+        });
     }
 
     @Override

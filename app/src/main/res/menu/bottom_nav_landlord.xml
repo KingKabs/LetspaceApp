@@ -15,8 +15,12 @@
         android:id="@+id/nav_payments"
         android:icon="@drawable/outline_payments_24"
         android:title="Payments"/>-->
-    <item
+    <!--<item
         android:id="@+id/nav_profile"
         android:icon="@drawable/outline_person_24"
-        android:title="Profile"/>
+        android:title="Profile"/>-->
+    <item
+        android:id="@+id/nav_about"
+        android:icon="@drawable/outline_info_24"
+        android:title="About" />
 </menu>

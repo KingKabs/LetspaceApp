@@ -62,9 +62,12 @@ public class LandlordDashboardActivity extends AppCompatActivity {
             } else if (itemId == R.id.nav_payments) {
                 selectedFragment = new TenantPaymentsFragment();
                 title = "💰 Payments";
-            }*/ else if (itemId == R.id.nav_profile) {
+            } else if (itemId == R.id.nav_profile) {
                 selectedFragment = new ProfileFragment();
                 title = "👤 Profile";
+            }*/ else if (itemId == R.id.nav_about) {
+                selectedFragment = new AboutFragment();
+                title = "ℹ️ About";
             }
 
             if (selectedFragment != null) {

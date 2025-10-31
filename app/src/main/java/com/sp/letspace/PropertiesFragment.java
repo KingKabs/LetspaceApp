@@ -35,8 +35,23 @@ public class PropertiesFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerProperties);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new PropertiesAdapter(propertyList);
+        adapter = new PropertiesAdapter(propertyList, property -> {
+            // Navigate to TenantsFragment and pass property id
+            Bundle bundle = new Bundle();
+            bundle.putInt("property_id", property.getPropertyId());
+            bundle.putString("property_name", property.getName());
+
+            Fragment tenantsFragment = new TenantsFragment();
+            tenantsFragment.setArguments(bundle);
+
+            requireActivity().getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragment_container, tenantsFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
         recyclerView.setAdapter(adapter);
+
 
         // Get the shared ViewModel
         viewModel = new ViewModelProvider(requireActivity()).get(LandlordSessionViewModel.class);
