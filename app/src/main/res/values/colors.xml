@@ -43,5 +43,7 @@
     <!-- Text Colors -->
     <color name="dashboard_title">#212121</color> <!-- Almost black -->
     <color name="dashboard_value">#424242</color> <!-- Dark gray -->
+    <color name="dashboard_text_strong">#1B1F3B</color>
+
 
 </resources>

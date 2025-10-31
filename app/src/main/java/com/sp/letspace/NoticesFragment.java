@@ -60,25 +60,5 @@ public class NoticesFragment extends Fragment {
         return view;
     }
 
-    private void loadNotices() {
-        // Assuming you have a Retrofit instance ready
-        ApiService apiService = ApiClient.getClient(getContext()).create(ApiService.class);
-        Call<ApiResponse> call = apiService.getUserProfile();
 
-        call.enqueue(new Callback<ApiResponse>() {
-            @Override
-            public void onResponse(Call<ApiResponse> call, Response<ApiResponse> response) {
-                if (response.isSuccessful() && response.body() != null) {
-                    noticeList.clear();
-                    noticeList.addAll(response.body().notices);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ApiResponse> call, Throwable t) {
-                Toast.makeText(getContext(), "Failed to load notices", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 }
