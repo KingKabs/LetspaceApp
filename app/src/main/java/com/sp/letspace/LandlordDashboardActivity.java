@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.sp.letspace.models.LandlordApiResponse;
 import com.sp.letspace.models.LandlordSessionViewModel;
+import com.sp.letspace.models.Property;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -42,7 +43,7 @@ public class LandlordDashboardActivity extends AppCompatActivity {
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation_landlord);
 
         // Load default fragment
-        loadFragment(new StatsFragment(), "📈 Stats");
+        loadFragment(new LandlordStatsFragment(), "📈 Stats");
 
         bottomNav.setOnItemSelectedListener(item -> {
             Fragment selectedFragment = null;
@@ -130,7 +131,22 @@ public class LandlordDashboardActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     LandlordApiResponse data = response.body();
 
-                    // Fill ViewModel
+                    // 1️⃣ Merge monthly_reports into properties
+                    for (Property prop : data.properties) {
+                        for (LandlordApiResponse.MonthlyReport report : data.monthly_reports) {
+                            if (report.property_id == prop.getPropertyId()) {
+                                prop.unit_count = report.unit_count;
+                                prop.total_rent = report.total_rent;
+                                prop.collectable_rent = report.collectable_rent;
+                                prop.vacant_units = report.vacant_units;
+                                prop.vacancy_rate = report.vacancy_rate;
+                                prop.occupancy_rate = report.occupancy_rate;
+                                break;
+                            }
+                        }
+                    }
+
+                    // 2️⃣ Fill ViewModel
                     LandlordSessionViewModel vm = new ViewModelProvider(LandlordDashboardActivity.this)
                             .get(LandlordSessionViewModel.class);
 
@@ -138,13 +154,12 @@ public class LandlordDashboardActivity extends AppCompatActivity {
                     LandlordApiResponse.GeneralStats stats = data.general_stats;
                     stats.landlord_name = data.user.name;
                     stats.landlord_email = data.user.email;
-                    // phone can be added if returned
                     vm.setGeneralStats(stats);
 
                     // Properties
                     vm.setProperties(data.properties);
 
-                    // Monthly Reports
+                    // Monthly Reports (optional, can still keep for separate fragment)
                     vm.setMonthlyReports(data.monthly_reports);
 
                 } else {
@@ -158,5 +173,6 @@ public class LandlordDashboardActivity extends AppCompatActivity {
             }
         });
     }
+
 
 }

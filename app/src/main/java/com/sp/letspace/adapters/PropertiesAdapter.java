@@ -35,10 +35,15 @@ public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.Pr
 
         holder.tvName.setText(property.getName());
         holder.tvUnits.setText("Units: " + property.getUnitCount());
-        holder.tvRent.setText(String.format("Total Rent: KSh %,.0f", property.getTotalRent()));
-        holder.tvCollectable.setText(String.format("Collectable: KSh %,.0f", property.getCollectableRent()));
+
+        // Format numbers with commas
+        holder.tvRent.setText(String.format("Total Rent: KSh %, .0f", property.getTotalRent()));
+        holder.tvCollectable.setText(String.format("Collectable: KSh %, .0f", property.getCollectableRent()));
         holder.tvVacant.setText("Vacant Units: " + property.getVacantUnits());
+
+        // Format occupancy / vacancy percentages
         holder.tvOccupancy.setText(String.format("Occupancy: %.0f%%", property.getOccupancyRate()));
+        holder.tvVacancy.setText(String.format("Vacancy: %.0f%%", property.getVacancyRate()));
     }
 
     @Override
@@ -47,7 +52,7 @@ public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.Pr
     }
 
     public static class PropertyViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName, tvUnits, tvRent, tvCollectable, tvVacant, tvOccupancy;
+        TextView tvName, tvUnits, tvRent, tvCollectable, tvVacant, tvOccupancy, tvVacancy;
 
         public PropertyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -57,8 +62,12 @@ public class PropertiesAdapter extends RecyclerView.Adapter<PropertiesAdapter.Pr
             tvCollectable = itemView.findViewById(R.id.tvPropCollectable);
             tvVacant = itemView.findViewById(R.id.tvPropVacant);
             tvOccupancy = itemView.findViewById(R.id.tvPropOccupancy);
+
+            // Add vacancy TextView (if not already in layout)
+            tvVacancy = itemView.findViewById(R.id.tvPropVacancy);
         }
     }
 }
+
 
 

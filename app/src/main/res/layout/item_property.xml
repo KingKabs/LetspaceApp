@@ -2,55 +2,112 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:elevation="4dp">
+    android:elevation="6dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:radius="12dp">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:background="@android:color/white">
 
+        <!-- Property Name -->
         <TextView
             android:id="@+id/tvPropName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Property Name"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:textColor="#004080" />
 
-        <TextView
-            android:id="@+id/tvPropUnits"
-            android:text="Units: 0"
-            android:layout_marginTop="4dp"
+        <!-- Divider -->
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#DDDDDD" />
 
-        <TextView
-            android:id="@+id/tvPropTotalRent"
-            android:text="Total Rent: KSh 0"
-            android:layout_marginTop="4dp"
+        <!-- Row: Units and Vacant -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
 
-        <TextView
-            android:id="@+id/tvPropCollectable"
-            android:text="Collectable: KSh 0"
-            android:layout_marginTop="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tvPropUnits"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Units: 0"
+                android:textColor="#333333"
+                android:textStyle="bold"/>
 
-        <TextView
-            android:id="@+id/tvPropVacant"
-            android:text="Vacant Units: 0"
-            android:layout_marginTop="4dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/tvPropVacant"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vacant: 0"
+                android:textColor="#FF5722"
+                android:textStyle="bold"/>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvPropOccupancy"
-            android:text="Occupancy: 0%"
-            android:layout_marginTop="4dp"
+        <!-- Row: Total Rent and Collectable -->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/tvPropTotalRent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Total Rent: KSh 0"
+                android:textColor="#333333"/>
+
+            <TextView
+                android:id="@+id/tvPropCollectable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Collectable: KSh 0"
+                android:textColor="#4CAF50"/>
+        </LinearLayout>
+
+        <!-- Row: Occupancy / Vacancy Rate -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/tvPropOccupancy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Occupancy: 0%"
+                android:textColor="#4CAF50"/>
+
+            <TextView
+                android:id="@+id/tvPropVacancy"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Vacancy: 0%"
+                android:textColor="#FF5722"/>
+        </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
