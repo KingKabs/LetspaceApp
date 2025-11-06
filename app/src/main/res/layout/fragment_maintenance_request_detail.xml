@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F9F9F9"
+    android:background="@drawable/dashboard_bg"
     android:padding="16dp"
     tools:context=".MaintenanceRequestDetailFragment">
 
@@ -13,45 +14,53 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Maintenance Request Summary -->
-        <androidx.cardview.widget.CardView
+        <!-- Request Summary -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:backgroundTint="@android:color/white"
-            android:elevation="3dp"
-            android:padding="16dp"
-            android:radius="12dp">
+            android:layout_marginBottom="0dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true"
+            app:strokeColor="#EEEEEE"
+            app:strokeWidth="1dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <!-- Title -->
                 <TextView
                     android:id="@+id/tvTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
                     android:text="🔧 Leaking Faucet"
-                    android:textColor="@android:color/black"
+                    android:textColor="#111111"
                     android:textSize="20sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:letterSpacing="0.01"
+                    android:layout_marginBottom="8dp" />
 
-                <!-- Key-Value Rows -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#E0E0E0"
+                    android:layout_marginBottom="8dp" />
+
+                <!-- Info Rows -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:divider="@android:color/darker_gray"
                     android:orientation="vertical"
-                    android:showDividers="middle">
+                    android:dividerPadding="6dp">
 
-                    <!-- Category -->
+                    <!-- Reusable row style -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="6dp"
+                        android:layout_marginTop="4dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -59,18 +68,20 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Category:"
-                            android:textColor="#444"
-                            android:textStyle="bold" />
+                            android:textColor="#555555"
+                            android:textStyle="bold"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvCategory"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="Plumbing" />
+                            android:text="Plumbing"
+                            android:textColor="#222222"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
-                    <!-- Priority -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -82,18 +93,21 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Priority:"
-                            android:textColor="#444"
-                            android:textStyle="bold" />
+                            android:textColor="#555555"
+                            android:textStyle="bold"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvPriority"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="High" />
+                            android:text="High"
+                            android:textColor="#E65100"
+                            android:textStyle="bold"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
-                    <!-- Status -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -105,18 +119,24 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Status:"
-                            android:textColor="#444"
-                            android:textStyle="bold" />
+                            android:textColor="#555555"
+                            android:textStyle="bold"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvStatus"
-                            android:layout_width="0dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="2"
-                            android:text="In Progress" />
+                            android:background="@drawable/status_badge"
+                            android:paddingHorizontal="12dp"
+                            android:paddingVertical="4dp"
+                            android:text="IN PROGRESS"
+                            android:textAllCaps="true"
+                            android:textColor="@android:color/white"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- Request Date -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -128,15 +148,18 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Requested:"
-                            android:textColor="#444"
-                            android:textStyle="bold" />
+                            android:textColor="#555555"
+                            android:textStyle="bold"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvRequestDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="2025-10-27" />
+                            android:text="2025-10-27"
+                            android:textColor="#333333"
+                            android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -148,38 +171,41 @@
                     android:layout_marginTop="12dp"
                     android:lineSpacingExtra="2dp"
                     android:text="The faucet in the kitchen is leaking continuously."
-                    android:textColor="#555" />
+                    android:textColor="#444444"
+                    android:textSize="14sp" />
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Technician Details Section -->
-        <androidx.cardview.widget.CardView
+        <!-- Technician Section -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardTechnicianSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@android:color/white"
-            android:elevation="3dp"
-            android:padding="16dp"
-            android:radius="12dp"
+            android:layout_marginBottom="0dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp"
+            app:cardUseCompatPadding="true"
+            app:strokeColor="#EEEEEE"
+            app:strokeWidth="1dp"
             android:visibility="gone">
 
             <LinearLayout
-                android:id="@+id/technicianSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
                     android:id="@+id/tvTechnicianHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:text="👷 Assigned Technician"
-                    android:textColor="@android:color/black"
+                    android:textColor="#111111"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
 
-                <!-- Technician Info Grid -->
+                <!-- Technician Info -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -189,23 +215,26 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="4dp">
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Name:"
-                            android:textColor="#444"
-                            android:textStyle="bold" />
+                            android:textColor="#555555"
+                            android:textStyle="bold"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvTechnicianName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="John Doe" />
+                            android:text="John Doe"
+                            android:textColor="#333333"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <!-- Phone -->
@@ -220,15 +249,18 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Phone:"
-                            android:textColor="#444"
-                            android:textStyle="bold" />
+                            android:textColor="#555555"
+                            android:textStyle="bold"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvTechnicianPhone"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="+254700000000" />
+                            android:text="+254700000000"
+                            android:textColor="#333333"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <!-- Email -->
@@ -243,15 +275,18 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Email:"
-                            android:textColor="#444"
-                            android:textStyle="bold" />
+                            android:textColor="#555555"
+                            android:textStyle="bold"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvTechnicianEmail"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="johndoe@example.com" />
+                            android:text="johndoe@example.com"
+                            android:textColor="#333333"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <!-- Specialization -->
@@ -266,49 +301,51 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="Specialization:"
-                            android:textColor="#444"
-                            android:textStyle="bold" />
+                            android:textColor="#555555"
+                            android:textStyle="bold"
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/tvTechnicianSpecialization"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="Plumbing" />
+                            android:text="Plumbing"
+                            android:textColor="#333333"
+                            android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
-        <!-- Maintenance Photos Section -->
-        <androidx.cardview.widget.CardView
+        <!-- Photos Section -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardPhotosSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@android:color/white"
-            android:elevation="3dp"
-            android:padding="16dp"
-            android:radius="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="5dp"
+            app:strokeColor="#EEEEEE"
+            app:strokeWidth="1dp"
+            app:cardUseCompatPadding="true"
             android:visibility="gone">
 
             <LinearLayout
-                android:id="@+id/photosSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="16dp">
 
                 <TextView
                     android:id="@+id/tvPhotosHeader"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:text="📸 Maintenance Request Photos"
-                    android:textColor="@android:color/black"
+                    android:textColor="#111111"
                     android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:layout_marginBottom="8dp" />
 
-                <!-- Horizontal photo scroll -->
                 <HorizontalScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -318,12 +355,11 @@
                         android:id="@+id/photosContainer"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" />
+                        android:orientation="horizontal"
+                        android:dividerPadding="8dp" />
                 </HorizontalScrollView>
-
             </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
+        </com.google.android.material.card.MaterialCardView>
 
     </LinearLayout>
 </ScrollView>

@@ -1,6 +1,7 @@
 package com.sp.letspace;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ public class LandlordDashboardActivity extends AppCompatActivity {
 
     private LandlordSessionViewModel viewModel;
     private Activity activity = LandlordDashboardActivity.this;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +79,10 @@ public class LandlordDashboardActivity extends AppCompatActivity {
             return false;
         });
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading profile...");
+        progressDialog.setCancelable(false);
+
         // Load landlord profile
         loadLandlordProfile();
 
@@ -125,12 +131,16 @@ public class LandlordDashboardActivity extends AppCompatActivity {
     }
 
     private void loadLandlordProfile() {
+        progressDialog.show();
+
         ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
         Call<LandlordApiResponse> call = apiService.getLandlordProfile();
 
         call.enqueue(new Callback<LandlordApiResponse>() {
             @Override
             public void onResponse(Call<LandlordApiResponse> call, Response<LandlordApiResponse> response) {
+                progressDialog.dismiss();
+
                 if (response.isSuccessful() && response.body() != null) {
                     LandlordApiResponse data = response.body();
 
@@ -180,6 +190,7 @@ public class LandlordDashboardActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<LandlordApiResponse> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.e("LandlordProfile", "Error: " + t.getMessage());
             }
         });

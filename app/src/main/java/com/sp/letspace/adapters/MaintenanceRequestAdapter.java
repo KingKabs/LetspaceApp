@@ -3,9 +3,11 @@ package com.sp.letspace.adapters;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,7 +42,7 @@ public class MaintenanceRequestAdapter extends RecyclerView.Adapter<MaintenanceR
         holder.tvTitle.setText(request.getTitle());
         holder.tvCategory.setText(request.getCategory());
         holder.tvDescription.setText(request.getDescription());
-        holder.tvStatus.setText(request.getStatus());
+        holder.tvStatus.setText(request.getStatus().toUpperCase());
 
         holder.itemView.setOnClickListener(v -> {
             // Create fragment instance and pass data
@@ -57,7 +59,6 @@ public class MaintenanceRequestAdapter extends RecyclerView.Adapter<MaintenanceR
                     .addToBackStack(null)
                     .commit();
         });
-
 
 
         // Change status color

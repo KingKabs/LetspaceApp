@@ -2,82 +2,99 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
+    android:layout_marginVertical="6dp"
+    android:layout_marginHorizontal="8dp"
+    app:cardCornerRadius="14dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="1dp"
+    app:strokeColor="#EEEEEE"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
+        android:id="@+id/containerRequest"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:gravity="start"
+        android:orientation="vertical"
         android:padding="12dp">
 
-        <!-- Left Icon -->
-        <ImageView
-            android:id="@+id/ivIcon"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="12dp"
-            android:background="@drawable/circle_background"
-            android:backgroundTint="@color/teal_700"
-            android:contentDescription="Request Icon"
-            android:padding="8dp"
-            android:src="@drawable/baseline_home_repair_service_24"
-            app:tint="@android:color/white" />
-
-        <!-- Right Content -->
+        <!-- Row: Icon + Title + Category -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:id="@+id/headerRow"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:gravity="start|center_vertical"
+            android:orientation="horizontal">
 
-            <!-- Title -->
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="wrap_content"
+            <!-- Icon -->
+            <ImageView
+                android:id="@+id/ivIcon"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/circle_background"
+                android:backgroundTint="@color/teal_700"
+                android:contentDescription="Maintenance Icon"
+                android:padding="8dp"
+                android:src="@drawable/baseline_home_repair_service_24"
+                app:tint="@android:color/white" />
+
+            <!-- Title + Category -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Requrest Title"
-                android:textColor="#222222"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+                android:layout_weight="1"
+                android:orientation="vertical">
 
-            <!-- Category -->
-            <TextView
-                android:id="@+id/tvCategory"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Plumbing"
-                android:textColor="#222222"
-                android:textSize="12sp"
-                android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tvTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Request Title"
+                    android:textColor="#1E1E1E"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-            <!-- Description -->
-            <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Leaking sink in kitchen."
-                android:textColor="#555555"
-                android:textSize="14sp" />
+                <TextView
+                    android:id="@+id/tvCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Category: Plumbing"
+                    android:textColor="#444"
+                    android:textSize="13sp" />
+            </LinearLayout>
 
-            <!-- Status badge -->
+            <!-- Status -->
             <TextView
                 android:id="@+id/tvStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
                 android:background="@drawable/status_badge"
                 android:paddingHorizontal="10dp"
                 android:paddingVertical="4dp"
                 android:text="New"
                 android:textColor="@android:color/white"
-                android:textSize="13sp"
+                android:textSize="8sp"
                 android:textStyle="bold" />
-
         </LinearLayout>
 
-    </LinearLayout>
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="6dp"
+            android:background="#E0E0E0" />
 
+        <!-- Description full-width -->
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Leaking sink in the kitchen that needs immediate attention."
+            android:textColor="#555555"
+            android:textSize="14sp"
+            android:lineSpacingExtra="2dp"
+            android:layout_marginBottom="4dp" />
+
+    </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

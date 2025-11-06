@@ -1,6 +1,7 @@
 package com.sp.letspace;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ public class DashboardActivity extends AppCompatActivity {
     Activity activity = DashboardActivity.this;
     private Toolbar toolbar;
     private ApiResponse tenantProfile;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,11 @@ public class DashboardActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading profile...");
+        progressDialog.setCancelable(false);
+
+        // Load tenant profile
         loadTenantProfile();
 
         // Load default fragment and set default title
@@ -121,12 +128,16 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     private void loadTenantProfile() {
+        progressDialog.show();
+
         ApiService apiService = ApiClient.getClient(this).create(ApiService.class);
         Call<ApiResponse> call = apiService.getUserProfile();
 
         call.enqueue(new retrofit2.Callback<ApiResponse>() {
             @Override
             public void onResponse(Call<ApiResponse> call, retrofit2.Response<ApiResponse> response) {
+                progressDialog.dismiss();
+
                 if (response.isSuccessful() && response.body() != null) {
                     ApiResponse tenantProfile = response.body();
 
@@ -143,6 +154,7 @@ public class DashboardActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ApiResponse> call, Throwable t) {
+                progressDialog.dismiss();
                 Log.e("Profile", "Error: " + t.getMessage());
             }
         });
