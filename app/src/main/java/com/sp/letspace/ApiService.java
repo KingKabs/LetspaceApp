@@ -3,6 +3,7 @@ package com.sp.letspace;
 import com.sp.letspace.models.ApiResponse;
 import com.sp.letspace.models.LandlordApiResponse;
 import com.sp.letspace.models.LoginResponse;
+import com.sp.letspace.models.TechnicianApiResponse;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ public interface ApiService {
 
     @GET("api/user/profile")
     Call<LandlordApiResponse> getLandlordProfile();
+
+    @GET("api/user/profile")
+    Call<TechnicianApiResponse> getTechnicianProfile();
 
     @FormUrlEncoded
     @POST("api/login")

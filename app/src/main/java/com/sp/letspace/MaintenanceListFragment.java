@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import com.sp.letspace.adapters.MaintenanceRequestAdapter;
 import com.sp.letspace.models.LandlordSessionViewModel;
 import com.sp.letspace.models.MaintenanceRequest;
+import com.sp.letspace.models.TechnicianSessionViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ public class MaintenanceListFragment extends Fragment {
     private List<MaintenanceRequest> requestList = new ArrayList<>();
     private SessionViewModel sessionViewModel;
     private LandlordSessionViewModel landlordSessionViewModel;
+    private TechnicianSessionViewModel technicianSessionViewModel;
 
     @Nullable
     @Override
@@ -70,8 +72,18 @@ public class MaintenanceListFragment extends Fragment {
                     Log.d("LandlordRequestsFragment", "No requests found");
                 }
             });
-
-
+        } else if (role.equalsIgnoreCase("technician")) {
+            // Technician ViewModel
+            technicianSessionViewModel = new ViewModelProvider(requireActivity()).get(TechnicianSessionViewModel.class);
+            technicianSessionViewModel.getMaintenanceRequests().observe(getViewLifecycleOwner(), requests -> {
+                if (requests != null && !requests.isEmpty()) {
+                    Log.d("TechnicianRequestsFragment", "Loaded " + requests.size() + " requests");
+                    adapter = new MaintenanceRequestAdapter(requests);
+                    rvRequests.setAdapter(adapter);
+                } else {
+                    Log.d("TechnicianRequestsFragment", "No requests found");
+                }
+            });
         }
 
 

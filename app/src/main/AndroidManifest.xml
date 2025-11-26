@@ -26,6 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Letspace">
         <activity
+            android:name=".TechnicianDashboardActivity"
+            android:exported="false" />
+        <activity
             android:name=".LandlordDashboardActivity"
             android:exported="false" />
         <activity

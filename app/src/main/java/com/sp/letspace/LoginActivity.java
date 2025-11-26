@@ -127,7 +127,6 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putBoolean("is_logged_in", true); // ✅ mark logged in
                         editor.apply();
 
-
                         if ("tenant".equalsIgnoreCase(role)) {
                             // Proceed to DashboardActivity for tenants
                             Intent intent = new Intent(LoginActivity.this, DashboardActivity.class);
@@ -138,6 +137,12 @@ public class LoginActivity extends AppCompatActivity {
                             Intent intent = new Intent(LoginActivity.this, LandlordDashboardActivity.class);
                             startActivity(intent);
                             finish();
+                        } else if ("technician".equalsIgnoreCase(role)) {
+                            // Proceed to TechnicianDashboardActivity
+                            Intent intent = new Intent(LoginActivity.this, TechnicianDashboardActivity.class);
+                            startActivity(intent);
+                            finish();
+
                         } else {
                             Toast.makeText(LoginActivity.this, "Unknown role. Cannot proceed.", Toast.LENGTH_SHORT).show();
                         }
